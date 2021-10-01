@@ -223,8 +223,8 @@ class TestAllMethods(unittest.TestCase):
 ### Write main function
 def main():
     #Create different objects 
-    pizza_shop = {"Pepperoni Pizza": 5, "Breadsticks": 3, "Calzone": 3}
-    mexican_restaurant = {"Burrito": 10, "Quesadilla": 7, "Nachos": 4}
+    pizza_shop = {"Pizza": 11, "Breadsticks": 3, "Calzone": 3}
+    mexican_restaurant = {"Burrito": 15, "Quesadilla": 7, "Nachos": 4}
     brad = Customer("Brad")
     chad = Customer("Chad", 50)
     thad = Customer("Thad", 150)
@@ -236,14 +236,22 @@ def main():
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
     #case 1: the cashier does not have the stall 
-    
+    brad.validate_order(pizza_house_cashier, pancheros, "Burrito", 1)
+    chad.validate_order(pancheros_cashier, pizza_house, "Breadsticks", 1)
+    thad.validate_order(pancheros_cashier, pizza_house, "Quesadilla", 1)
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
-    
+    brad.validate_order(pizza_house_cashier, pizza_house, "Calzone", 4)
+    chad.validate_order(pancheros_cashier, pancheros, "Nachos", 5)
+    thad.validate_order(pancheros_cashier, pancheros, "Burrito", 16)
     #case 3: the customer does not have enough money to pay for the order: 
-    
+    brad.validate_order(pancheros_cashier, pancheros, "Burrito", 15)
+    chad.validate_order(pizza_house_cashier, pizza_house, "Pizza", 4)
+    thad.validate_order(pizza_house_cashier, pizza_house, "Pizza", 11)
     #case 4: the customer successfully places an order
+    brad.validate_order(pancheros_cashier, pancheros, "Burrito", 2)
+    chad.validate_order(pizza_house_cashier, pizza_house, "Pizza", 1)
+    thad.validate_order(pizza_house_cashier, pizza_house, "Calzone", 1)
 
-    pass
 
 if __name__ == "__main__":
 	main()
