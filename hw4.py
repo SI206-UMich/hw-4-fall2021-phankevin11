@@ -28,7 +28,8 @@ class Customer:
     # Submit_order takes a cashier, a stall and an amount as parameters, 
     # it deducts the amount from the customer’s wallet and calls the receive_payment method on the cashier object
     def submit_order(self, cashier, stall, amount): 
-        pass
+        self.wallet -= amount
+        cashier.receive_payment(stall, amount)
 
     # The __str__ method prints the customer's information.    
     def __str__(self):
@@ -93,7 +94,12 @@ class Stall:
 
     # Adds quantity to inventory[name]
     def stock_up(self, name, quantity):
-        self.inventory.get(name, 0) += quantity
+        total_stock = self.inventory.get(name, 0)
+        if total_stock == 0:
+            self.inventory.setdefault(name, quantity)
+        else:
+            self.inventory[name] += quantity
+
     
     # Calculates cost based on quantity
     def compute_cost(self, quantity):
