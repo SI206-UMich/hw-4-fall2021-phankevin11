@@ -202,20 +202,36 @@ class TestAllMethods(unittest.TestCase):
 
 	# Test validate order
     def test_validate_order(self):
-		# case 1: test if a customer doesn't have enough money in their wallet to order
-        
+        # case 1: test if a customer doesn't have enough money in their wallet to order
+        self.f1.validate_order(self.c1, self.s1, "Burger", 11)
+        self.assertEqual(self.f1.wallet, 100)
 		# case 2: test if the stall doesn't have enough food left in stock
-
+        self.f2.validate_order(self.c1, self.s1, "Burger", 41)
+        self.assertEqual(self.s1.inventory["Burger"], 40)           
 		# case 3: check if the cashier can order item from that stall
-        pass
+        dummy_stall = Stall("Dummy Stall", {})
+        self.f1.validate_order(self.c1, dummy_stall, "Burger", 1)
+        self.assertFalse(self.c1.has_stall(dummy_stall))
+
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
-        pass
+        self.f1.reload_money(100)
+        # Seeing if money was added to wallet
+        self.assertEqual(self.f1.wallet, 200)
     
 ### Write main function
 def main():
     #Create different objects 
+    pizza_shop = {"Pepperoni Pizza": 5, "Breadsticks": 3, "Calzone": 3}
+    mexican_restaurant = {"Burrito": 10, "Quesadilla": 7, "Nachos": 4}
+    brad = Customer("Brad")
+    chad = Customer("Chad", 50)
+    thad = Customer("Thad", 150)
+    pizza_house = Stall("Pizza House", pizza_shop, 15)
+    pancheros = Stall("Panchero's", mexican_restaurant)
+    pizza_house_cashier = Cashier("Todd", [pizza_house])
+    pancheros_cashier = Cashier("Jim", [pancheros])
 
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
