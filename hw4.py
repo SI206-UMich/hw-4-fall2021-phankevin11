@@ -87,7 +87,7 @@ class Stall:
     
     # Checks to see if enough inventory[name] for quantity
     def has_item(self, name, quantity):
-        if quantity <= self.inventory[name]:
+        if quantity <= self.inventory.get(name, 0):
             return True
         else:
             return False
@@ -99,7 +99,6 @@ class Stall:
             self.inventory.setdefault(name, quantity)
         else:
             self.inventory[name] += quantity
-
     
     # Calculates cost based on quantity
     def compute_cost(self, quantity):
@@ -183,26 +182,28 @@ class TestAllMethods(unittest.TestCase):
     def test_compute_cost(self):
         #what's wrong with the following statements?
         #can you correct them?
-        self.assertEqual(self.s1.compute_cost(self.s1,5), 51)
-        self.assertEqual(self.s3.compute_cost(self.s3,6), 45)
+        self.assertEqual(self.s1.compute_cost(5), 50)
+        self.assertEqual(self.s3.compute_cost(6), 42)
 
 	# Check that the stall can properly see when it is empty
     def test_has_item(self):
         # Set up to run test cases
+        inventory = {"Pad Thai": 5}
+        s5 = Stall("No Thai", inventory)
 
         # Test to see if has_item returns True when a stall has enough items left
         # Please follow the instructions below to create three different kinds of test cases 
         # Test case 1: the stall does not have this food item: 
-        
+        self.assertFalse(s5.has_item("Burger", 5))
         # Test case 2: the stall does not have enough food item: 
-        
+        self.assertFalse(s5.has_item("Pad Thai", 6))
         # Test case 3: the stall has the food item of the certain quantity: 
-        pass
+        self.assertTrue(s5.has_item("Pad Thai", 5))
 
 	# Test validate order
     def test_validate_order(self):
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-
+        
 		# case 2: test if the stall doesn't have enough food left in stock
 
 		# case 3: check if the cashier can order item from that stall
